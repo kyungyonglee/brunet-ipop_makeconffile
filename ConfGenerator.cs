@@ -9,6 +9,7 @@ namespace xmlGenerator
     {
         static void Main()
         {
+			ConfGenerator confGen = new ConfGenerator();
 			string menuSel;
 			bool running;
 			
@@ -28,19 +29,19 @@ namespace xmlGenerator
 				switch(menuSel)
 				{
 					case "1" :
-						genBrunetConf();
+						confGen.genBrunetConf();
 						break;
 
 					case "2" :
-						genIPOPConf();
+						confGen.genIPOPConf();
 						break;
 
 					case "3" :
-						genDHCPConf();
+						confGen.genDHCPConf();
 						break;
 
 					case "11" :
-						ReadXMLFile();
+						confGen.ReadXMLFile();
 						break;
 
 					case "99" : 
@@ -53,10 +54,14 @@ namespace xmlGenerator
 				}
 			}
         }
+    }
+
+    class ConfGenerator
+    {
 /* 
 ** Generate Brunet Configuration file
 */
-		static bool genBrunetConf()
+		public bool genBrunetConf()
 		{
 			XmlTextWriter textWriter;
 			string confPath;
@@ -146,7 +151,7 @@ namespace xmlGenerator
 					break;
 				}
 				else{
-					Console.WriteLine("Input String is null. Try again");
+					Console.WriteLine("Input String is null. Try again");
 				}
 			}while(true);
 			textWriter.WriteEndElement();	//for XmlRpcManager
@@ -172,7 +177,7 @@ namespace xmlGenerator
 					break;
 				}
 				else{
-					Console.WriteLine("Input String is null. Try again");
+					Console.WriteLine("Input String is null. Try again");
 				}
 			}while(true);
 			textWriter.WriteEndElement();	//for RpcDht
@@ -187,7 +192,7 @@ namespace xmlGenerator
 /* 
 *Generate IPOP Configuration file
 */	
-		static bool genIPOPConf()
+		public bool genIPOPConf()
 		{
 			XmlTextWriter textWriter;
 			string confPath;
@@ -228,7 +233,7 @@ namespace xmlGenerator
 /* 
 *Generate DHCP Configuration file
 */
-		static bool genDHCPConf()
+		public bool genDHCPConf()
 		{
 			XmlTextWriter textWriter;
 			string inputString;
@@ -298,7 +303,7 @@ namespace xmlGenerator
 **XmlTextWriter TargetXML : XML instance which we should create an element and write a value.
 **ValidCheck type : Desired type of validation check for the input value. refer to ValidCheck enumerator
 */
-		static void WriteElementValue(string element, string value, string defaultString, XmlTextWriter TargetXML, ValidCheck type)
+		void WriteElementValue(string element, string value, string defaultString, XmlTextWriter TargetXML, ValidCheck type)
 		{
 			string inputString;
 			
@@ -347,7 +352,7 @@ namespace xmlGenerator
 /*
 ** Read XML file and show the result on the console.
 */
-		static bool ReadXMLFile()
+		public bool ReadXMLFile()
 		{
 			string xmlFilePath;
 			XmlTextReader reader;
@@ -372,7 +377,7 @@ namespace xmlGenerator
 /*
 ** Check whether the input IP string is valid or not
 */
-		static bool isValidIP(string ipAddr)
+		bool isValidIP(string ipAddr)
 		{
 			bool isValid = true;
 		
@@ -391,7 +396,7 @@ namespace xmlGenerator
 /*
 ** Check whether the input Port value is valid or not
 */
-		static bool isValidPort(string portNumber)
+		bool isValidPort(string portNumber)
 		{
 			uint port;
 			try{
@@ -414,7 +419,7 @@ namespace xmlGenerator
 ** It will check the start of the string("udp://" or "tcp://")
 ** It will check IP validity and Port number validity
 */
-		static bool isValidRemoteTA(string address)
+		bool isValidRemoteTA(string address)
 		{
 			int endIP;
 			string IPaddr; //4 
@@ -459,6 +464,12 @@ namespace xmlGenerator
 			IPCheck = 2, 
 			PortCheck = 3 
 	    }
+
+		public ConfGenerator(){
+
+		}
+
     }
 }
+
 

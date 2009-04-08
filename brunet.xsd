@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"> 
+
+<xs:element name="NodeConfig">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="BrunetNamespace" type="xs:string"/>
+      <xs:element ref="RemoteTAs" />
+	<xs:element ref="EdgeListeners" />
+      <xs:element ref="XmlRpcManager" />
+      <xs:element ref="RpcDht" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="RemoteTAs">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Transport" type="xs:string" maxOccurs="unbounded" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="EdgeListeners">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="EdgeListener" maxOccurs="unbounded" minOccurs="0">
+	  <xs:complexType>
+	    <xs:sequence>
+            <xs:element ref="port" />
+	    </xs:sequence>
+ 	    <xs:attribute name="type">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="udp"/>
+                <xs:enumeration value="tcp"/>
+              </xs:restriction>
+            </xs:simpleType>
+	    </xs:attribute>
+	  </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="XmlRpcManager">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="Enabled" />
+      <xs:element ref="Port" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="RpcDht">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="Enabled" />
+      <xs:element ref="Port" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="EnableMulticast">
+  <xs:simpleType>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="true"/>
+      <xs:enumeration value="false"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:element>
+
+<xs:element name="Enabled">
+  <xs:simpleType>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="true"/>
+      <xs:enumeration value="false"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:element>
+
+<xs:element name="port">
+  <xs:simpleType>
+    <xs:restriction base="xs:integer">
+      <xs:minInclusive value="1024"/>
+      <xs:maxInclusive value="65536"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:element>
+
+<xs:element name="Port">
+  <xs:simpleType>
+    <xs:restriction base="xs:integer">
+      <xs:minInclusive value="1024"/>
+      <xs:maxInclusive value="65536"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:element>
+
+</xs:schema>

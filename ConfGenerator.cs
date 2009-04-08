@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using System.Net;
 using System.Xml;
+using System.Xml.Schema;
+
 
 namespace xmlGenerator
 {
@@ -21,6 +23,9 @@ namespace xmlGenerator
 				Console.WriteLine("1. Generate Brunet configuration file");
 				Console.WriteLine("2. Generate IPOP configuration file");
 				Console.WriteLine("3. Generate DHCP configuration file");
+				Console.WriteLine("4. Brunet config file validation check");
+				Console.WriteLine("5. IPOP config file validation check");
+				Console.WriteLine("6. DHCP config file validation check");
 				Console.WriteLine("11. Read XML file");
 				Console.WriteLine("99. Exit");
 				Console.WriteLine("========================================");
@@ -38,6 +43,18 @@ namespace xmlGenerator
 
 					case "3" :
 						confGen.genDHCPConf();
+						break;
+
+					case "4" :
+						confGen.confFileValidCheck(xmlGenerator.ConfGenerator.ConfFileValidChk.Brunet);
+						break;
+
+					case "5" :
+						confGen.confFileValidCheck(xmlGenerator.ConfGenerator.ConfFileValidChk.IPOP);
+						break;
+
+					case "6" :
+						confGen.confFileValidCheck(xmlGenerator.ConfGenerator.ConfFileValidChk.DHCP);
 						break;
 
 					case "11" :
@@ -66,6 +83,7 @@ namespace xmlGenerator
 			XmlTextWriter textWriter;
 			string confPath;
 			string inputString;
+
  
 			Console.WriteLine("Type Brunet configuration file path and name(for default value, press enter. default:node.config)");
 			confPath = Console.ReadLine();
@@ -147,7 +165,7 @@ namespace xmlGenerator
 					else{   //user press enter --> default string
 						WriteElementValue("Enabled", "true", null, textWriter,ValidCheck.NoCheck);
 					}
-					WriteElementValue("port", "10000", null, textWriter, ValidCheck.NoCheck);
+					WriteElementValue("Port", "10000", null, textWriter, ValidCheck.NoCheck);
 					break;
 				}
 				else{
@@ -173,7 +191,7 @@ namespace xmlGenerator
 					else{  //user press enter --> default string
 						WriteElementValue("Enabled", "true", null, textWriter,ValidCheck.NoCheck);
 					}
-					WriteElementValue("port", "64221", null, textWriter, ValidCheck.NoCheck);
+					WriteElementValue("Port", "64221", null, textWriter, ValidCheck.NoCheck);
 					break;
 				}
 				else{
@@ -222,6 +240,7 @@ namespace xmlGenerator
 			textWriter.WriteStartElement("AddressData");
 			WriteElementValue("Hostname", null, "default_hostname", textWriter, ValidCheck.NoCheck);
 			textWriter.WriteEndElement(); //AddressData
+			WriteElementValue("EnableMulticast", null, "true", textWriter, ValidCheck.NoCheck);
 			
 			textWriter.WriteEndElement();	// for IpopConfig
 			textWriter.WriteEndDocument();
@@ -455,6 +474,48 @@ namespace xmlGenerator
 
 			return true;
 		}
+
+		public bool confFileValidCheck(ConfFileValidChk target)
+		{
+			string xsdFilePath;
+			string xmlFilename;
+			
+			if(target == ConfFileValidChk.Brunet){
+				xsdFilePath = "Brunet.xsd";
+				xmlFilename = "node.config";
+			}else if(target == ConfFileValidChk.IPOP){
+				xsdFilePath = "IPOP.xsd";
+				xmlFilename = "ipop.config";
+			}else{
+				xsdFilePath = "DHCP.xsd";
+				xmlFilename = "DHCPServer.Config";
+			}
+
+			XmlReaderSettings settings = new XmlReaderSettings();
+			settings.ValidationType = ValidationType.Schema;
+	
+			XmlSchemaSet schemas = new XmlSchemaSet();
+			settings.Schemas = schemas;
+			schemas.Add(null, xsdFilePath);
+			settings.ValidationEventHandler += ValidCheckEventHandler;
+			XmlReader validator = XmlReader.Create(xmlFilename, settings);
+			try {
+				while (validator.Read()) { }
+			} catch (XmlException err) {
+				Console.WriteLine(err.Message);
+				return false;
+			} finally {
+				validator.Close();
+			}
+
+			Console.WriteLine("This configuration file is valid");
+			return true;
+		}
+		
+		private void ValidCheckEventHandler(object sender, ValidationEventArgs args) {
+			Console.WriteLine("Validation error: " + args.Message);
+		}
+
 /*
 ** Enumerator value which will be used for validity check option
 */
@@ -463,6 +524,13 @@ namespace xmlGenerator
 			NoCheck = 1,
 			IPCheck = 2, 
 			PortCheck = 3 
+	    }
+
+	    public enum ConfFileValidChk : int
+	    {
+			Brunet = 1,
+			IPOP = 2, 
+			DHCP = 3 
 	    }
 
 		public ConfGenerator(){

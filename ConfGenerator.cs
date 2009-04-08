@@ -479,6 +479,7 @@ namespace xmlGenerator
 		{
 			string xsdFilePath;
 			string xmlFilename;
+			XmlReader validator;
 			
 			if(target == ConfFileValidChk.Brunet){
 				xsdFilePath = "Brunet.xsd";
@@ -496,9 +497,22 @@ namespace xmlGenerator
 	
 			XmlSchemaSet schemas = new XmlSchemaSet();
 			settings.Schemas = schemas;
-			schemas.Add(null, xsdFilePath);
+			try{
+				schemas.Add(null, xsdFilePath);
+			}catch(Exception x){
+				Console.WriteLine("Invalid schema file path.. check first");
+				return false;
+			}
+
 			settings.ValidationEventHandler += ValidCheckEventHandler;
-			XmlReader validator = XmlReader.Create(xmlFilename, settings);
+			
+			try{
+				 validator = XmlReader.Create(xmlFilename, settings);
+			}catch(Exception x){
+				Console.WriteLine("Invalid xml file path. check first");
+				return false;
+			}
+
 			try {
 				while (validator.Read()) { }
 			} catch (XmlException err) {

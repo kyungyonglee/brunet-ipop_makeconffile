@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"> 
+
+<xs:element name="DHCPServerConfig">
+  <xs:complexType>
+    <xs:all>
+      <xs:element name="Namespace" type="xs:string" minOccurs="1"/>
+      <xs:element ref="netmask" minOccurs="1" />
+      <xs:element ref="pool" minOccurs="1" />
+      <xs:element ref="DHCPReservedIPs" />
+      <xs:element name="leasetime" type="xs:integer"/>
+    </xs:all>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="netmask">
+  <xs:simpleType>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="((1?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\.){3}(1?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:element>
+
+<xs:element name="pool">
+  <xs:complexType>
+    <xs:all>
+      <xs:element name="lower">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="((1?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\.){3}(1?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="upper">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="((1?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\.){3}(1?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:all>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="DHCPReservedIPs">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="DHCPReservedIP"  maxOccurs="unbounded" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="DHCPReservedIP">
+  <xs:complexType>
+    <xs:all>
+      <xs:element name="ip">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="((1?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\.){3}(1?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="mask">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="((1?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\.){3}(1?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:all>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

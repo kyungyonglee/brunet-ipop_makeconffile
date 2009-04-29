@@ -488,7 +488,7 @@ namespace xmlGenerator
 				xsdFilePath = "IPOP.xsd";
 				xmlFilename = "ipop.config";
 			}else{
-				xsdFilePath = "DHCP.xsd";
+				xsdFilePath = "DHCPServer.xsd";
 				xmlFilename = "DHCPServer.Config";
 			}
 

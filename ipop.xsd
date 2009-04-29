@@ -3,12 +3,12 @@
 
 <xs:element name="IpopConfig">
   <xs:complexType>
-    <xs:sequence>
+    <xs:all>
       <xs:element name="IpopNamespace" type="xs:string"/>
       <xs:element name="VirtualNetworkDevice" type="xs:string"/>
 	<xs:element ref="AddressData" />
       <xs:element ref="EnableMulticast" />
-    </xs:sequence>
+    </xs:all>
   </xs:complexType>
 </xs:element>
 

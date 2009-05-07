@@ -9,6 +9,10 @@
       <xs:element ref="EdgeListeners" />
       <xs:element ref="XmlRpcManager" minOccurs="0" />
       <xs:element ref="RpcDht" minOccurs="0" />
+      <xs:element ref="NCService" minOccurs="0" />
+      <xs:element ref="Security" minOccurs="0" />
+      <xs:element ref="DevicesToBind" minOccurs="0" />
+      <xs:element name="NodeAddress" type="xs:string" minOccurs="0" />      
     </xs:all>
   </xs:complexType>
 </xs:element>
@@ -33,7 +37,7 @@
       <xs:element name="EdgeListener" maxOccurs="unbounded" minOccurs="0">
         <xs:complexType>
 	  <xs:sequence>
-            <xs:element ref="port" />
+            <xs:element ref="port" minOccurs="0"/>
 	  </xs:sequence>
  	  <xs:attribute name="type">
             <xs:simpleType>
@@ -51,29 +55,54 @@
 
 <xs:element name="XmlRpcManager">
   <xs:complexType>
-    <xs:sequence>
+    <xs:all>
       <xs:element ref="Enabled" />
       <xs:element ref="Port" />
-    </xs:sequence>
+    </xs:all>
   </xs:complexType>
 </xs:element>
 
 <xs:element name="RpcDht">
   <xs:complexType>
-    <xs:sequence>
+    <xs:all>
       <xs:element ref="Enabled" />
       <xs:element ref="Port" />
-    </xs:sequence>
+    </xs:all>
   </xs:complexType>
 </xs:element>
 
-<xs:element name="EnableMulticast">
-  <xs:simpleType>
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="true"/>
-      <xs:enumeration value="false"/>
-    </xs:restriction>
-  </xs:simpleType>
+
+<xs:element name="NCService">
+  <xs:complexType>
+    <xs:all>
+      <xs:element ref="Enabled" />
+      <xs:element ref="OptimizeShortcuts" />
+      <xs:element ref="Checkpointing" />
+      <xs:element name="Checkpoint" type="xs:string" minOccurs="0"/>
+    </xs:all>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Security">
+  <xs:complexType>
+    <xs:all>
+      <xs:element ref="Enabled" minOccurs="1"/>
+      <xs:element ref="SecureEdges" minOccurs="1"/>
+      <xs:element ref="TestEnable" minOccurs="1"/>
+      <xs:element ref="SecureEdgesEnabled" minOccurs="0"/>
+      <xs:element ref="SelfSignedCertificates" minOccurs="1"/>
+      <xs:element name="KeyPath" type="xs:string" minOccurs="1"/>
+      <xs:element name="CertificatePath" type="xs:string" minOccurs="1"/>
+    </xs:all>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="DevicesToBind">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Device" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
 </xs:element>
 
 <xs:element name="Enabled">
@@ -85,10 +114,64 @@
   </xs:simpleType>
 </xs:element>
 
+<xs:element name="OptimizeShortcuts">
+  <xs:simpleType>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="true"/>
+      <xs:enumeration value="false"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:element>
+
+<xs:element name="Checkpointing">
+  <xs:simpleType>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="true"/>
+      <xs:enumeration value="false"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:element>
+
+<xs:element name="SecureEdges">
+  <xs:simpleType>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="true"/>
+      <xs:enumeration value="false"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:element>
+
+<xs:element name="TestEnable">
+  <xs:simpleType>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="true"/>
+      <xs:enumeration value="false"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:element>
+
+<xs:element name="SelfSignedCertificates">
+  <xs:simpleType>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="true"/>
+      <xs:enumeration value="false"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:element>
+
+<xs:element name="SecureEdgesEnabled">
+  <xs:simpleType>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="true"/>
+      <xs:enumeration value="false"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:element>
+
 <xs:element name="port">
   <xs:simpleType>
     <xs:restriction base="xs:integer">
-      <xs:minInclusive value="1024"/>
+      <xs:minInclusive value="0"/>
       <xs:maxInclusive value="65536"/>
     </xs:restriction>
   </xs:simpleType>
@@ -97,7 +180,7 @@
 <xs:element name="Port">
   <xs:simpleType>
     <xs:restriction base="xs:integer">
-      <xs:minInclusive value="1024"/>
+      <xs:minInclusive value="0"/>
       <xs:maxInclusive value="65536"/>
     </xs:restriction>
   </xs:simpleType>

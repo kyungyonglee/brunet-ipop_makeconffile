@@ -54,10 +54,13 @@ namespace ConfManager
 				return false;
 			}
 
-			try {
-				while (validator.Read()) { }
-			} catch (XmlException err) {
-			} finally {
+			try{
+				while (validator.Read()){ }
+			}catch(XmlException err){
+				Console.WriteLine(err);
+				Succeed=false;
+			} 
+			finally{
 				validator.Close();
 			}
 
@@ -65,7 +68,13 @@ namespace ConfManager
 		}
 		
 		private void ValidCheckEventHandler(object sender, ValidationEventArgs args) {
-			Console.WriteLine("Validation error: " + args.Message);
+			if(args.Severity == XmlSeverityType.Warning){
+				Console.WriteLine("Validation Warning: " + args.Message);
+			}
+			else{
+				Console.WriteLine("Validation error: " + args.Message);
+			}
+			
 			Succeed = false;
 		}
 

@@ -5,14 +5,14 @@
   <xs:complexType>
     <xs:all>
       <xs:element name="BrunetNamespace" type="xs:string" minOccurs="1"/>
-      <xs:element ref="RemoteTAs" />
+      <xs:element ref="RemoteTAs" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="EdgeListeners" />
-      <xs:element ref="XmlRpcManager" minOccurs="0" />
-      <xs:element ref="RpcDht" minOccurs="0" />
-      <xs:element ref="NCService" minOccurs="0" />
-      <xs:element ref="Security" minOccurs="0" />
-      <xs:element ref="DevicesToBind" minOccurs="0" />
-      <xs:element name="NodeAddress" type="xs:string" minOccurs="0" />      
+      <xs:element ref="XmlRpcManager" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="RpcDht" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="NCService" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="Security" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="DevicesToBind" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="NodeAddress" type="xs:string" minOccurs="0" maxOccurs="1"/>      
     </xs:all>
   </xs:complexType>
 </xs:element>
